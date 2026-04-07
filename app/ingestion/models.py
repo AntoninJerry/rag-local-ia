@@ -1,14 +1,13 @@
 from pathlib import Path
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
+
+from app.models import DocumentChunk, DocumentRaw
+
+Document = DocumentRaw
 
 
-class Document(BaseModel):
-    text: str
-    source_path: Path
-
-
-class DocumentChunk(BaseModel):
-    text: str
-    source_path: Path
-    chunk_index: int
+class IngestionResult(BaseModel):
+    documents: list[DocumentRaw] = Field(default_factory=list)
+    failed_files: list[Path] = Field(default_factory=list)
+    errors: list[str] = Field(default_factory=list)

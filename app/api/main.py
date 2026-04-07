@@ -17,7 +17,7 @@ def health() -> HealthResponse:
 @app.post("/index", response_model=IndexResponse)
 def index_documents(request: IndexRequest) -> IndexResponse:
     # TODO: Wire the ingestion, chunking, embedding and vector store pipeline.
-    return IndexResponse(indexed_documents=0, source_path=str(request.source_path))
+    return IndexResponse(source_path=request.source_path)
 
 
 @app.post("/ask", response_model=AskResponse)

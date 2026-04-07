@@ -1,8 +1,8 @@
 from typing import Protocol
 
-from app.ingestion.models import DocumentChunk
+from app.models import RetrievedChunk
 
 
 class AnswerGenerator(Protocol):
-    def generate(self, question: str, context: list[DocumentChunk]) -> str:
+    def generate(self, question: str, context: list[RetrievedChunk]) -> str:
         """Generate an answer grounded in retrieved document chunks."""
