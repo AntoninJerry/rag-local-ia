@@ -15,6 +15,13 @@ class IndexRequest(BaseModel):
     source_path: Path = Field(..., description="Dossier local contenant les documents a indexer.")
 
 
-IndexResponse = IndexingResult
-AskRequest = QueryRequest
-AskResponse = QueryResponse
+class IndexResponse(IndexingResult):
+    pass
+
+
+class AskRequest(QueryRequest):
+    pass
+
+
+class AskResponse(QueryResponse):
+    pass

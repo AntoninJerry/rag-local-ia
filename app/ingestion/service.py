@@ -3,7 +3,7 @@ from pathlib import Path
 
 from app.ingestion.loaders import DocumentLoader, default_loaders
 from app.ingestion.models import IngestionResult
-from app.ingestion.scanner import scan_documents
+from app.ingestion.scanner import scan_files
 from app.models import DocumentRaw
 
 logger = logging.getLogger(__name__)
@@ -15,10 +15,11 @@ class DocumentIngestionService:
 
     def ingest_directory(self, source_dir: Path) -> IngestionResult:
         logger.info("Starting document ingestion from %s", source_dir)
-        file_paths = scan_documents(source_dir, set(self._loaders_by_extension))
-        logger.info("Detected %s supported document(s)", len(file_paths))
+        file_paths = scan_files(source_dir)
+        logger.info("Detected %s file(s)", len(file_paths))
 
         documents: list[DocumentRaw] = []
+        ignored_files: list[Path] = []
         failed_files: list[Path] = []
         errors: list[str] = []
 
@@ -26,6 +27,7 @@ class DocumentIngestionService:
             loader = self._loaders_by_extension.get(file_path.suffix.lower())
             if loader is None:
                 logger.warning("Skipping unsupported file: %s", file_path)
+                ignored_files.append(file_path)
                 continue
 
             try:
@@ -37,7 +39,12 @@ class DocumentIngestionService:
                 logger.exception("Failed to ingest file: %s", file_path)
 
         logger.info("Finished document ingestion with %s extracted document unit(s)", len(documents))
-        return IngestionResult(documents=documents, failed_files=failed_files, errors=errors)
+        return IngestionResult(
+            documents=documents,
+            ignored_files=ignored_files,
+            failed_files=failed_files,
+            errors=errors,
+        )
 
     @staticmethod
     def _build_loader_registry(loaders: list[DocumentLoader]) -> dict[str, DocumentLoader]:

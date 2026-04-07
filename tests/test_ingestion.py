@@ -1,8 +1,21 @@
 import logging
 from pathlib import Path
 
-from app.ingestion.loaders import PdfFileLoader
+from app.ingestion.loaders import PdfFileLoader, TextFileLoader
 from app.ingestion.service import DocumentIngestionService
+
+
+def test_text_file_loader_reads_txt_file_with_metadata(tmp_path: Path) -> None:
+    file_path = tmp_path / "notes.txt"
+    file_path.write_text("Contenu texte", encoding="utf-8")
+
+    documents = TextFileLoader().load(file_path)
+
+    assert len(documents) == 1
+    assert documents[0].source_file == "notes.txt"
+    assert documents[0].file_path == file_path
+    assert documents[0].page_number is None
+    assert documents[0].text == "Contenu texte"
 
 
 def test_ingestion_reads_txt_and_md_files(tmp_path: Path) -> None:
