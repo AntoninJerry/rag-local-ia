@@ -13,6 +13,7 @@ def test_settings_have_safe_local_defaults() -> None:
     assert settings.embedding_model_name
     assert settings.llm_provider == "local_stub"
     assert settings.llm_model_name == "local-stub"
+    assert settings.llm_timeout_seconds == 30.0
     assert settings.chunk_size == 1000
     assert settings.chunk_overlap == 150
     assert settings.retrieval_top_k == 5

@@ -14,6 +14,7 @@ class Settings(BaseSettings):
     embedding_model_name: str = "sentence-transformers/all-MiniLM-L6-v2"
     llm_provider: str = "local_stub"
     llm_model_name: str = "local-stub"
+    llm_timeout_seconds: float = Field(default=30.0, gt=0)
     chunk_size: int = Field(default=1000, gt=0)
     chunk_overlap: int = Field(default=150, ge=0)
     retrieval_top_k: int = Field(default=5, ge=1, le=50)

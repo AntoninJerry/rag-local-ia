@@ -2,5 +2,8 @@ from typing import Protocol
 
 
 class EmbeddingProvider(Protocol):
-    def embed_texts(self, texts: list[str]) -> list[list[float]]:
-        """Return one embedding vector per input text."""
+    def embed_documents(self, texts: list[str]) -> list[list[float]]:
+        """Return one embedding vector per input document text."""
+
+    def embed_query(self, text: str) -> list[float]:
+        """Return one embedding vector for a query."""

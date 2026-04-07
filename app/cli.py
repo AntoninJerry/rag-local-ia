@@ -48,6 +48,7 @@ def info() -> None:
     typer.echo(f"Modele embeddings: {settings.embedding_model_name}")
     typer.echo(f"Fournisseur LLM: {settings.llm_provider}")
     typer.echo(f"Modele LLM: {settings.llm_model_name}")
+    typer.echo(f"Timeout LLM: {settings.llm_timeout_seconds}s")
     typer.echo(f"Chunk size: {settings.chunk_size}")
     typer.echo(f"Chunk overlap: {settings.chunk_overlap}")
     typer.echo(f"Top k retrieval: {settings.retrieval_top_k}")
