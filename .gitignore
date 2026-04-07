@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+*.pyc*
+*.egg-info/
+.pytest_cache/
+pytest-cache-files-*/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+.env
+data/documents/*
+data/processed/*
+data/vector_store/*
+!data/documents/.gitkeep
+!data/processed/.gitkeep
+!data/vector_store/.gitkeep
