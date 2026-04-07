@@ -1,4 +1,5 @@
 from app.ingestion.models import Document, DocumentChunk
+from app.core.config import Settings, settings
 
 
 class TextChunker:
@@ -11,6 +12,10 @@ class TextChunker:
             raise ValueError("overlap must be positive and smaller than chunk_size")
         self.chunk_size = chunk_size
         self.overlap = overlap
+
+    @classmethod
+    def from_settings(cls, config: Settings = settings) -> "TextChunker":
+        return cls(chunk_size=config.chunk_size, overlap=config.chunk_overlap)
 
     def split(self, document: Document) -> list[DocumentChunk]:
         # TODO: Replace with token-aware chunking if the selected embedding model requires it.

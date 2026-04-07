@@ -2,13 +2,16 @@ from fastapi import FastAPI
 
 from app.api.schemas import AskRequest, AskResponse, HealthResponse, IndexRequest, IndexResponse
 from app.core.config import settings
+from app.core.logging import configure_logging
+
+configure_logging()
 
 app = FastAPI(title=settings.app_name)
 
 
 @app.get("/health", response_model=HealthResponse)
 def health() -> HealthResponse:
-    return HealthResponse(status="ok", app_name=settings.app_name)
+    return HealthResponse(status="ok", app_name=settings.app_name, environment=settings.app_env)
 
 
 @app.post("/index", response_model=IndexResponse)
